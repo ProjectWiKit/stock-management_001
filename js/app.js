@@ -69,7 +69,10 @@ function typeLabel(t){return t==='IN'?'รับเข้า':t==='OUT'?'เบ�
 
 async function loadDashboard(){
   try{
-    const r=await api('dashboard'); const d=r.data;
+    const r = await api('dashboard');
+console.log('DASHBOARD RESPONSE:', r);
+alert(JSON.stringify(r, null, 2));
+const d = r.data;
     $('productCount').textContent=d.productCount; $('totalQty').textContent=d.totalQty;
     $('lowStock').textContent=d.lowStock; $('outStock').textContent=d.outOfStock;
     $('recentTable').innerHTML=table(['เวลา','สินค้า','ประเภท','จำนวน','คงเหลือ','ผู้ทำรายการ'],
