@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>ระบบจัดการสต็อกสินค้า V1</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<div id="loginView" class="center">
+  <form id="loginForm" class="card login">
+    <h1>📦 Stock System</h1>
+    <p class="muted">ระบบจัดการสต็อกสินค้า V1</p>
+    <label>ชื่อผู้ใช้<input id="username" required autocomplete="username"></label>
+    <label>รหัสผ่าน<input id="password" type="password" required autocomplete="current-password"></label>
+    <button class="primary">เข้าสู่ระบบ</button>
+    <div id="loginMsg" class="msg"></div>
+  </form>
+</div>
+
+<div id="appView" hidden>
+  <header class="topbar">
+    <div><b>📦 Stock System</b><span class="version">V1</span></div>
+    <div><span id="userInfo"></span> <button id="logoutBtn" class="ghost">ออกจากระบบ</button></div>
+  </header>
+
+  <main class="container">
+    <nav class="tabs">
+      <button data-tab="dashboard" class="active">Dashboard</button>
+      <button data-tab="products">สินค้า</button>
+      <button data-tab="transaction">รับเข้า / เบิกออก</button>
+      <button data-tab="history">ประวัติ</button>
+    </nav>
+
+    <section id="dashboard" class="tab">
+      <div class="cards">
+        <div class="stat"><span>สินค้าทั้งหมด</span><strong id="productCount">0</strong></div>
+        <div class="stat"><span>จำนวนรวม</span><strong id="totalQty">0</strong></div>
+        <div class="stat"><span>ใกล้หมด</span><strong id="lowStock">0</strong></div>
+        <div class="stat"><span>หมดสต็อก</span><strong id="outStock">0</strong></div>
+      </div>
+      <div class="card">
+        <div class="row between"><h2>รายการล่าสุด</h2><button id="refreshDash" class="secondary">รีเฟรช</button></div>
+        <div id="recentTable"></div>
+      </div>
+    </section>
+
+    <section id="products" class="tab" hidden>
+      <div class="card">
+        <div class="row">
+          <input id="productSearch" placeholder="🔎 ค้นหารหัส / Barcode / ชื่อสินค้า / หมวดหมู่">
+          <button id="refreshProducts" class="secondary">รีเฟรช</button>
+        </div>
+        <div id="productsTable"></div>
+      </div>
+    </section>
+
+    <section id="transaction" class="tab" hidden>
+      <div class="card form-card">
+        <h2>บันทึกรายการสต็อก</h2>
+        <div class="grid2">
+          <label>ประเภท
+            <select id="txType"><option value="IN">รับเข้า</option><option value="OUT">เบิกออก</option><option value="ADJ">ปรับยอดเป็น</option></select>
+          </label>
+          <label>รหัสสินค้า<input id="txProduct" placeholder="เช่น P001"></label>
+          <label>จำนวน<input id="txQty" type="number" min="0.01" step="0.01"></label>
+          <label>หมายเหตุ<input id="txNote" placeholder="เช่น รับของจาก Supplier"></label>
+        </div>
+        <button id="submitTx" class="primary">บันทึกรายการ</button>
+        <div id="txMsg" class="msg"></div>
+      </div>
+    </section>
+
+    <section id="history" class="tab" hidden>
+      <div class="card">
+        <div class="row">
+          <input id="historySearch" placeholder="🔎 ค้นหารายการ">
+          <button id="refreshHistory" class="secondary">รีเฟรช</button>
+        </div>
+        <div id="historyTable"></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script src="js/config.js"></script>
+<script src="js/app.js"></script>
+</body>
+</html>
