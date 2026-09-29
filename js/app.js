@@ -2,17 +2,28 @@ const $ = id => document.getElementById(id);
 let state = { token: localStorage.getItem('stock_token') || '', user: JSON.parse(localStorage.getItem('stock_user') || 'null') };
 
 async function api(action, data={}) {
-  const payload = {...data, action, token: state.token};
   const res = await fetch(API_URL, {
-    method: 'POST',
-    headers: {'Content-Type':'text/plain;charset=utf-8'},
-    body: JSON.stringify(payload)
+    method:'POST',
+    headers:{'Content-Type':'text/plain;charset=utf-8'},
+    body:JSON.stringify({action, token, ...data})
   });
-  const json = await res.json();
-  if (!json.ok) {
-    if (json.error === 'SESSION_EXPIRED') logout();
-    throw new Error(json.error || 'API error');
+
+  const text = await res.text();
+
+  console.log('API response:', text);
+
+  let json;
+
+  try {
+    json = JSON.parse(text);
+  } catch (e) {
+    throw new Error(
+      'API ส่งข้อมูลที่ไม่ใช่ JSON กลับมา:\n\n' +
+      text.substring(0, 500)
+    );
   }
+
+  if (!json.ok && json.error) throw new Error(json.error);
   return json;
 }
 
