@@ -1,11 +1,15 @@
 const $ = id => document.getElementById(id);
-let state = { token: localStorage.getItem('stock_token') || '', user: JSON.parse(localStorage.getItem('stock_user') || 'null') };
+
+let state = {
+  token: localStorage.getItem('stock_token') || '',
+  user: JSON.parse(localStorage.getItem('stock_user') || 'null')
+};
 
 async function api(action, data={}) {
   const res = await fetch(API_URL, {
     method:'POST',
     headers:{'Content-Type':'text/plain;charset=utf-8'},
-    body:JSON.stringify({action, token, ...data})
+    body:JSON.stringify({action, token: state.token, ...data})
   });
 
   const text = await res.text();
